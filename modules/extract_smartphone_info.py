@@ -1,11 +1,11 @@
 from load_django import *
 from parser_app.models import Smartphone
-import requests
+from utils.fetch_page_html import fetch_page_html
 from bs4 import BeautifulSoup
 
-smartphone = Smartphone.objects.create(
-    name="Apple iPhone 16 Pro Max 256GB Black Titanium (MYWV3)"
-)
+url = ""
+html = fetch_page_html(url)
 
-for i in Smartphone.objects.all():
-    print(i.name)
+soup = BeautifulSoup(html, "html.parser")
+
+print(soup.title.text)
