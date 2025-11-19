@@ -63,6 +63,22 @@ def extract_dealer(soup, selector):
     return dealer
 
 
+def extract_characteristic_by_title(soup, selector, title):
+    block = soup.select_one(selector)
+    if not block:
+        return None
+
+    span_tag = block.find("span", text=title)
+    if not span_tag:
+        return None
+
+    next_span = span_tag.find_next_sibling("span")
+    if not next_span:
+        return None
+
+    return next_span.text.strip()
+
+
 def parse_product_info(html):
     data = {}
     soup = BeautifulSoup(html, "html.parser")
@@ -76,6 +92,17 @@ def parse_product_info(html):
     data["images"] = extract_image_urls(soup, ".br-pr-slider .br-prs-s .br-main-img")
     data["characteristics"] = extract_characteristics(
         soup, ".br-pr-chr .br-pr-chr-item"
+    )
+    data["internal_memory"] = extract_characteristic_by_title(
+        soup, ".br-pr-chr", "Вбудована пам'ять"
+    )
+    data["color"] = extract_characteristic_by_title(soup, ".br-pr-chr", "Колір")
+    data["series"] = extract_characteristic_by_title(soup, ".br-pr-chr", "Виробник")
+    data["screen_diagonal"] = extract_characteristic_by_title(
+        soup, ".br-pr-chr", "Діагональ екрану"
+    )
+    data["display_resolution"] = extract_characteristic_by_title(
+        soup, ".br-pr-chr", "Роздільна здатність екрану"
     )
 
     return data
