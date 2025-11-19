@@ -4,6 +4,7 @@ from django.contrib.postgres.fields import ArrayField
 
 class Smartphone(models.Model):
     name = models.CharField(max_length=255, blank=True, null=True)
+    dealer = models.CharField(max_length=128, blank=True, null=True)
     product_code = models.CharField(max_length=32, blank=True, null=True)
     price = models.CharField(max_length=16, blank=True, null=True)
     discounted_price = models.CharField(max_length=16, blank=True, null=True)
