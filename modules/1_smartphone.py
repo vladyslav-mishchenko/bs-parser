@@ -10,12 +10,11 @@ url = "https://brain.com.ua/ukr/Mobilniy_telefon_Apple_iPhone_16_Pro_Max_256GB_B
 html = fetch_page_html(url)
 
 # Open HTML page locally to learn BeautifulSoup more effectively
-with open("../files/page.html", "r", encoding="utf-8") as f:
-    local_html = f.read()
-data = parse_product_info(local_html)
+# with open("./files/page.html", "r", encoding="utf-8") as f:
+#     local_html = f.read()
+# data = parse_product_info(local_html)
 
-# data = parse_product_info(html)
-# print(data)
+data = parse_product_info(html)
 
 # save to db without defaults and unique
 smartphone, created = Smartphone.objects.get_or_create(
