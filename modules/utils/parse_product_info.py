@@ -47,11 +47,28 @@ def extract_characteristics(soup, selector):
     return characteristics
 
 
+def extract_dealer(soup, selector):
+    """
+    Return the dealer information without parsing the HTML.
+
+    Args:
+        soup (BeautifulSoup): (not used).
+        selector (str): CSS selector (not used).
+
+    Returns:
+        str: The name of the dealer ("Brain").
+    """
+
+    dealer = "Brain"
+    return dealer
+
+
 def parse_product_info(html):
     data = {}
     soup = BeautifulSoup(html, "html.parser")
 
     data["name"] = extract_text(soup, "h1.desktop-only-title")
+    data["dealer"] = extract_dealer(soup, "")
     data["product_code"] = extract_text(soup, ".br-pr-code-val")
     data["price"] = extract_text(soup, ".main-price-block .br-pr-np")
     data["discounted_price"] = extract_text(soup, ".main-price-block .br-pr-op")
