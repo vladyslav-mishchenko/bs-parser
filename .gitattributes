@@ -1,0 +1,9 @@
+# Ignore saved HTML pages for language statistics
+files/*.html linguist-generated
+
+# Ignore Python cache and virtual environment
+__pycache__/** linguist-vendored
+venv/** linguist-vendored
+
+# Ensure Jupyter notebooks are counted as Python
+*.ipynb linguist-language=Python
