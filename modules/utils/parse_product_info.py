@@ -1,5 +1,16 @@
 from bs4 import BeautifulSoup
 
+element_selectors = {
+    "name": "h1.desktop-only-title",
+    "dealer": "",
+    "product_code": ".br-pr-code-val",
+    "price": ".main-price-block .br-pr-np",
+    "discounted_price": ".main-price-block .br-pr-op",
+    "reviews": ".main-comments-block .reviews-count",
+}
+
+container_selectors = {"characteristics": ".br-pr-chr"}
+
 
 def extract_text(soup, selector):
     el = soup.select_one(selector)
@@ -83,12 +94,12 @@ def parse_product_info(html):
     data = {}
     soup = BeautifulSoup(html, "html.parser")
 
-    data["name"] = extract_text(soup, "h1.desktop-only-title")
-    data["dealer"] = extract_dealer(soup, "")
-    data["product_code"] = extract_text(soup, ".br-pr-code-val")
-    data["price"] = extract_text(soup, ".main-price-block .br-pr-np")
-    data["discounted_price"] = extract_text(soup, ".main-price-block .br-pr-op")
-    data["reviews"] = extract_text(soup, ".main-comments-block .reviews-count")
+    data["name"] = extract_text(soup, element_selectors["name"])
+    data["dealer"] = extract_dealer(soup, element_selectors["dealer"])
+    data["product_code"] = extract_text(soup, element_selectors["product_code"])
+    data["price"] = extract_text(soup, element_selectors["price"])
+    data["discounted_price"] = extract_text(soup, element_selectors["discounted_price"])
+    data["reviews"] = extract_text(soup, element_selectors["reviews"])
     data["images"] = extract_image_urls(soup, ".br-pr-slider .br-prs-s .br-main-img")
     data["characteristics"] = extract_characteristics(
         soup, ".br-pr-chr .br-pr-chr-item"
