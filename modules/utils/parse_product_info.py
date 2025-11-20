@@ -1,5 +1,14 @@
 from bs4 import BeautifulSoup
 
+from utils.extractors.extract_text import extract_text
+from utils.extractors.extract_image_urls import extract_image_urls
+from utils.extractors.extract_characteristics import extract_characteristics
+from utils.extractors.extract_dealer import extract_dealer
+from utils.extractors.extract_characteristic_by_title import (
+    extract_characteristic_by_title,
+)
+
+
 element_selectors = {
     "name": "h1.desktop-only-title",
     "dealer": "",
@@ -10,83 +19,6 @@ element_selectors = {
 }
 
 container_selectors = {"characteristics": ".br-pr-chr"}
-
-
-def extract_text(soup, selector):
-    el = soup.select_one(selector)
-    return el.get_text(strip=True) if el else None
-
-
-def extract_image_urls(soup, selector):
-    images = soup.select(selector)
-    if not images:
-        return None
-    urls = [img.get("src") for img in images if img.get("src")]
-    return urls or None
-
-
-def extract_characteristics(soup, selector):
-    characteristics = {}
-
-    items = soup.select(selector)
-    if not items:
-        return None
-
-    for item in items:
-        category = item.select_one("h3")
-        if not category:
-            continue
-
-        category_characteristics = category.find_next_sibling("div")
-        characteristics_list = category_characteristics.find_all("div", recursive=False)
-
-        characteristic = {}
-
-        for row in characteristics_list:
-            title_span = row.find("span")
-            description_span = title_span.find_next_sibling("span")
-
-            title = title_span.get_text(strip=True)
-            description = description_span.get_text(strip=True, separator=" ")
-            description = " ".join(description.replace("\n", " ").split())
-
-            characteristic[title] = description
-
-        category_name = category.get_text(strip=True)
-        characteristics[category_name] = characteristic
-
-    return characteristics
-
-
-def extract_dealer(soup, selector):
-    """
-    Return the dealer information without parsing the HTML.
-
-    Args:
-        soup (BeautifulSoup): (not used).
-        selector (str): CSS selector (not used).
-
-    Returns:
-        str: The name of the dealer ("Brain").
-    """
-
-    dealer = "Brain"
-    return dealer
-
-
-def extract_characteristic_by_title(container, title):
-    if not container:
-        return None
-
-    span_tag = container.find("span", text=title)
-    if not span_tag:
-        return None
-
-    next_span = span_tag.find_next_sibling("span")
-    if not next_span:
-        return None
-
-    return next_span.text.strip()
 
 
 def load_html_container(soup, selector):
