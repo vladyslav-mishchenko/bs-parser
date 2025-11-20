@@ -17,6 +17,8 @@ element_selectors = {
     "price": ".main-price-block .br-pr-np",
     "discounted_price": ".main-price-block .br-pr-op",
     "reviews": ".main-comments-block .reviews-count",
+    "images": ".br-pr-slider .br-prs-s .br-main-img",
+    "characteristics": ".br-pr-chr .br-pr-chr-item",
 }
 
 container_selectors = {"characteristics": ".br-pr-chr"}
@@ -34,9 +36,9 @@ def parse_product_info(html):
     data["price"] = extract_text(soup, element_selectors["price"])
     data["discounted_price"] = extract_text(soup, element_selectors["discounted_price"])
     data["reviews"] = extract_text(soup, element_selectors["reviews"])
-    data["images"] = extract_image_urls(soup, ".br-pr-slider .br-prs-s .br-main-img")
+    data["images"] = extract_image_urls(soup, element_selectors["images"])
     data["characteristics"] = extract_characteristics(
-        soup, ".br-pr-chr .br-pr-chr-item"
+        soup, element_selectors["characteristics"]
     )
     data["internal_memory"] = extract_characteristic_by_title(
         characteristics, "Вбудована пам'ять"
