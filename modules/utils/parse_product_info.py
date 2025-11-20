@@ -7,6 +7,7 @@ from utils.extractors.extract_dealer import extract_dealer
 from utils.extractors.extract_characteristic_by_title import (
     extract_characteristic_by_title,
 )
+from utils.extractors.load_html_container import load_html_container
 
 
 element_selectors = {
@@ -19,13 +20,6 @@ element_selectors = {
 }
 
 container_selectors = {"characteristics": ".br-pr-chr"}
-
-
-def load_html_container(soup, selector):
-    container = soup.select_one(selector)
-    if not container:
-        return None
-    return container
 
 
 def parse_product_info(html):
